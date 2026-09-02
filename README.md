@@ -1,1 +1,1 @@
-# gyro-stick-esp32
+GyroStick is a single-axis (Y-axis pitch) balancing system powered by an ESP32-C3 Super Mini running Zephyr RTOS. Attitude stabilization is achieved using an MPU-6050 IMU and dual 5V brushed motors with propellers driven by an MX1508 motor driver. MATLAB/Simulink is used exclusively as an offline tool for control system design, filter formulation, and generating optimized, standalone C code (PID and digital filters) for native on-chip execution.
