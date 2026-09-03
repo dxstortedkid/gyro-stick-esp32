@@ -1,0 +1,36 @@
+{
+  "projects": {
+    "gyrostick": {
+      "relPath": "gyrostick",
+      "name": "gyrostick",
+      "buildConfigs": {
+        "build/esp32c3_supermini/esp32c3": {
+          "relBoardSubDir": "others/esp32c3_supermini",
+          "board": "esp32c3_supermini/esp32c3",
+          "name": "build/esp32c3_supermini/esp32c3",
+          "westBuildArgs": [],
+          "westBuildCMakeArgs": [],
+          "confFiles": {
+            "config": [],
+            "overlay": [
+              {
+                "path": "gyrostick/boards/esp32c3_supermini.overlay",
+                "extra": true
+              }
+            ]
+          }
+        }
+      },
+      "twisterConfigs": {},
+      "confFiles": {
+        "config": [],
+        "overlay": [
+          {
+            "path": "gyrostick/boards/esp32c3_supermini.overlay",
+            "extra": false
+          }
+        ]
+      }
+    }
+  }
+}
