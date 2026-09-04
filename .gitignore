@@ -1,4 +1,5 @@
 .venv/
+zephyr/
 external
 **/build*/
 .vscode/compile_commands.json

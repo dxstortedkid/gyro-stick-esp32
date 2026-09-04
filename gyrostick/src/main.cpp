@@ -1,43 +1,21 @@
 #include <zephyr/kernel.h>
-#include <zephyr/logging/log.h>
+#include <zephyr/drivers/pwm.h>
 
-#include "modules/mpu6050/mpu6050.hpp"
-
-LOG_MODULE_REGISTER(app, LOG_LEVEL_INF);
+static constexpr pwm_dt_spec in3 = PWM_DT_SPEC_GET(DT_NODELABEL(motor_b_in3));
+static constexpr pwm_dt_spec in4 = PWM_DT_SPEC_GET(DT_NODELABEL(motor_b_in4));
 
 int main()
 {
-    const struct device *const dev = DEVICE_DT_GET_ANY(invensense_mpu6050);
-
-    Mpu6050 imu(dev);
-
-    if (!imu.init()) {
-        LOG_ERR("MPU6050 initialization failed");
-        return 0;
-    }
-
-    k_msleep(1000);
-
-    imu.calibrate(200);
-
-    LOG_INF("IMU stream started");
-
-    ImuData data{};
-
     while (true) {
-        if (imu.read(data)) {
-            LOG_INF("ACC: [%6.2f, %6.2f, %6.2f] m/s^2 | GYR: [%6.3f, %6.3f, %6.3f] rad/s",
-                    static_cast<double>(data.ax),
-                    static_cast<double>(data.ay),
-                    static_cast<double>(data.az),
-                    static_cast<double>(data.gx),
-                    static_cast<double>(data.gy),
-                    static_cast<double>(data.gz));
-        }
+        // 50% мощности вперед (25 000 нс из периода 50 000 нс)
+        pwm_set_pulse_dt(&in3, 25000);
+        pwm_set_pulse_dt(&in4, 0);
+        k_msleep(2000);
 
-#ifndef CONFIG_MPU6050_TRIGGER
-        k_msleep(20);
-#endif
+        // Стоп (выбег)
+        pwm_set_pulse_dt(&in3, 0);
+        pwm_set_pulse_dt(&in4, 0);
+        k_msleep(2000);
     }
 
     return 0;

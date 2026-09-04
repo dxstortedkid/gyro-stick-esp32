@@ -1,4 +1,18 @@
+#include <zephyr/dt-bindings/pwm/pwm.h>
+
 /* Pin multiplexing configuration */
+/ {
+    motor_ctrl {
+        compatible = "pwm-leds";
+        motor_b_in3: in3 {
+            pwms = <&ledc0 0 50000 PWM_POLARITY_NORMAL>;
+        };
+        motor_b_in4: in4 {
+            pwms = <&ledc0 1 50000 PWM_POLARITY_NORMAL>;
+        };
+    };
+};
+
 &pinctrl {
 	i2c0_default: i2c0_default {
 		group1 {
@@ -8,6 +22,13 @@
 			drive-open-drain;
 			output-high;
 		};
+	};
+
+	ledc0_default: ledc0_default {
+		group1 {
+			pinmux = <LEDC_CH0_GPIO2>,
+				 <LEDC_CH1_GPIO3>;
+        	};
 	};
 };
 
@@ -24,3 +45,23 @@
 		status = "okay";
 	};
 };
+
+/* motor
+&ledc0 {
+    pinctrl-0 = <&ledc0_default>;
+    pinctrl-names = "default";
+    status = "okay";
+    #address-cells = <1>;
+    #size-cells = <0>;
+
+    channel0@0 {
+        reg = <0x0>;
+        timer = <0>;
+    };
+
+    channel1@1 {
+        reg = <0x1>;
+        timer = <0>;
+    };
+};
+*/
