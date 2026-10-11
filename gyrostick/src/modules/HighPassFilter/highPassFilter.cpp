@@ -22,7 +22,7 @@ class HighPassFilter{
             return current_y;
         }
 
-        void reset(float initial_alpha){
+        void reset(){
             prev_x = 0.0f;
             prev_y = 0.0f;
         }
